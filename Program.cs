@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Text_Based_Game
     internal class Program
     {
 
-        public static List<string> inventory = new List<string>() {""};
+        public static List<string> inventory = new List<string>() { "" };
         public static bool door12Entered = false;
         public static bool door13Entered = false;
 
@@ -67,8 +67,8 @@ namespace Text_Based_Game
         public static void room1()
         {
             Console.Clear();
-            Console.WriteLine("\n\nYou look around, Everythings moving. A single beam of light shining down into the endless hole. ");
-            Console.WriteLine("The room has 4 doors. Which one would you like to enter.");
+            Console.WriteLine("You look around, Everythings moving. A single beam of light shining down into the endless hole. ");
+            Console.WriteLine("The room has 4 doors.");
             Console.WriteLine("\n ==========+ \t\t\t\t ==========+ \t\t\t ==========+ \r\n|  __  __  ||\t\t\t\t|  __  __  ||\t\t\t|  __  __  ||\r\n| |  ||  | ||\t\t\t\t| |  ||  | ||\t\t\t| |  ||  | ||\r\n| |  12  | ||\t\t\t\t| |  13  | ||\t\t\t| |  14  | ||\r\n| |__||__| |--\t\t\t\t| |__||__| |--\t\t\t| |__||__| |--\r\n|  __  __()|\\ You Hear Screaming...\t|  __  __()|\\ You Hear Music... |  __  __()|\\ You Dont Hear Anything...\r\n| |  ||  | +|\t\t\t\t| |  ||  | +|\t\t\t| |  ||  | +|\r\n| |  ||  | ||\t\t\t\t| |  ||  | ||\t\t\t| |  ||  | ||\r\n| |  ||  | ||\t\t\t\t| |  ||  | ||\t\t\t| |  ||  | ||\r\n| |__||__| ||\t\t\t\t| |__||__| ||\t\t\t| |__||__| ||\r\n|__________|- \t\t\t     \t|__________|- \t \t\t|__________|-    ");
             Console.WriteLine("\nWhich Door would you like to enter");
 
@@ -104,6 +104,12 @@ namespace Text_Based_Game
                     }
                     door13();
                 }
+
+                else if (Int32.Parse(menuSelection) == 14)
+                {
+                    door14();
+                }
+
             }
         }
 
@@ -122,7 +128,21 @@ namespace Text_Based_Game
                 Console.Write("> ");
                 string subMenuSelect = Console.ReadLine();
 
-                if (subMenuSelect == "take")
+                if (subMenuSelect == "take" && inventory.Contains("hunterGloves"))
+                {
+                    Console.Clear();
+                    Thread.Sleep(500);
+                    Console.WriteLine("You sneakily grab the weapon out of its home and place it into your sheith. Your gloves get ruined in the process.\n");
+                    inventory.Add("mushyMachete");
+                    inventory.Remove("hunterGloves");
+                    Thread.Sleep(3000);
+                    Write("you leave the room and the door locks shut behind you");
+                    Thread.Sleep(2500);
+                    door12Entered = true;
+                    room1();
+                }
+
+                else if (subMenuSelect == "take")
                 {
                     Console.Clear();
                     Console.WriteLine("Water drips onto your back\n");
@@ -135,24 +155,10 @@ namespace Text_Based_Game
                     Main(null);
                 }
 
-                else if (subMenuSelect == "take" && inventory.Contains("hunterGloves"))
-                {
-                    Console.Clear();
-                    Thread.Sleep(500);
-                    Console.WriteLine("You sneakily grab the weapon out of its home and place it into your sheith. Your gloves get ruined in the process.");
-                    inventory.Add("Mushy Machete");
-                    inventory.Remove("hunterGloves");
-                    Thread.Sleep(1000);
-                    Console.Clear();
-                    Console.WriteLine("you leave the room and it locks shut behind you");
-                    door12Entered = true;
-                    room1();
-                }
-
                 else if (subMenuSelect == "leave")
                 {
-                    Console.Write("\n");
-                    Write("Wise Decision");
+                    Console.Clear();
+                    Write("You leave the room.");
                     Thread.Sleep(1000);
                     Console.Clear();
 
@@ -164,7 +170,7 @@ namespace Text_Based_Game
                     Console.WriteLine("\nInvalid Choice.\n");
                 }
             }
-            
+
         }
 
 
@@ -174,7 +180,7 @@ namespace Text_Based_Game
             Console.Clear();
             Console.WriteLine("You enter the door...");
             Thread.Sleep(1500);
-            Console.WriteLine("There seems to be a locked chest linked to some form of puzzle. ");
+            Console.WriteLine("\nThere seems to be a locked chest linked to some form of puzzle. ");
             Console.WriteLine("(attempt) to solve it or (leave)\n");
 
             while (true)
@@ -189,7 +195,9 @@ namespace Text_Based_Game
 
                 else if (subMenuSelect == "leave")
                 {
-
+                    Console.Clear();
+                    Write("You leave the room.");
+                    room1();
                 }
 
                 else
@@ -242,10 +250,59 @@ namespace Text_Based_Game
             Write("You open the chest and find some gloves, you put them on and leave. The door locks shut behind you.");
             door13Entered = true;
             inventory.Add("hunterGloves");
-            Console.Write(inventory);
-            Thread.Sleep(10000);
             room1();
 
+        }
+
+        public static void door14()
+        {
+            Console.Clear();
+            Console.WriteLine("You look at the door.");
+            Thread.Sleep(1500);
+            Console.WriteLine("\nThe door has a rope closing it shut. (try) to cut it or (leave). ");
+
+            while (true)
+            {
+                Console.Write("> ");
+                string subMenuSelect = Console.ReadLine();
+
+                if (subMenuSelect == "try" && inventory.Contains("mushyMachete"))
+                {
+                    Console.Clear();
+                    Write("You successfuly open the door and go through it. No surprise, it's another room.\n");
+                    Thread.Sleep(2000);
+                    room2();
+                }
+
+                else if (subMenuSelect == "try")
+                {
+                    Console.Write("\nYou try to break the rope apart with your hands. No luck.");
+                    Thread.Sleep(2000);
+                    door14();
+                }
+
+                else if (subMenuSelect == "leave")
+                {
+                    Console.Write("\nYou leave the door alone.");
+                    Thread.Sleep(2000);
+                    room1();
+                }
+
+                else
+                {
+                    Console.WriteLine("\nInvalid Choice.");
+                }
+            }
+        }
+
+        
+
+        public static void room2()
+        {
+            Console.Clear();
+            Console.WriteLine("Ill add more soon.");
+            Thread.Sleep(5000);
+            System.Environment.Exit(0);
         }
 
 
